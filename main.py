@@ -1,33 +1,16 @@
 import os
+my_directory = r"E:\TEMP"
+
+def rename_files_and_dirs(path, substring):
+    for filename in os.listdir(path):
+        full_path = os.path.join(path, filename)
+        new_filename = filename.replace(substring, "").strip()
+        new_full_path = os.path.join(path, new_filename)
+        os.rename(full_path, new_full_path)
+
+        if os.path.isdir(new_full_path):
+            rename_files_and_dirs(new_full_path, substring)
 
 
-DIRECTORY = r"C:\TMP"
-
-def rename_files(find_directory):
-    for root, dirs, files in os.walk(find_directory):
-#        for name in dirs:
-#            rename_file(root, name)
-        for name in files:
-            rename_file(root, name)
-
-
-
-def rename_file(root, name):
-    valid_name = get_valid_name(name)
-    # old_file = os.path.join(root, name) # Переименование директорий
-    new_file = os.path.join(root, valid_name) # Переименование файлов
-    os.rename(old_file, new_file)
-
-
-def get_valid_name(name):
-    name = name.replace("Иванов", "")
-#    if not name.startswith("a_"):
-#        name = "a_" + name
-    return name
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    rename_files(DIRECTORY)
-
-
+# Example usage: remove substring "old_" from all and directories in "my_directory"
+rename_files_and_dirs("my_directory", "old_")
